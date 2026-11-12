@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101722">
+<meta name="description" content="A Christ-centered life and stewardship planner.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Life & Stewardship</title>
+<style>
+:root{--bg:#0c121b;--panel:#141e2b;--panel2:#1a2736;--line:#29384a;--text:#f3f5f7;--muted:#a5b2c1;--gold:#e6bd72;--green:#72c69a;--red:#e58a82;--blue:#8bb7e8;--radius:18px}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#101a27 0%,var(--bg) 38%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 16px calc(92px + env(safe-area-inset-bottom))}
+header{padding:22px 2px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:12px;letter-spacing:.18em;color:var(--gold);font-weight:800}.brand-sub{font-size:11px;color:var(--muted);letter-spacing:.08em}
+h1{font-size:25px;line-height:1.15;margin:6px 0 3px}h2{font-size:19px;margin:0 0 10px}h3{font-size:15px;margin:0 0 6px}
+p{margin:5px 0;color:var(--muted)}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.card{background:linear-gradient(145deg,var(--panel),#111a26);border:1px solid var(--line);border-radius:var(--radius);padding:17px;margin:12px 0;box-shadow:0 8px 24px #0002}
+.hero{background:radial-gradient(circle at 100% 0%,#31445a 0,#19283a 35%,#141e2b 75%);border-color:#3a4b5d}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.pill{font-size:11px;padding:5px 9px;border-radius:99px;background:#263548;color:var(--muted);white-space:nowrap}.pill.good{color:var(--green);background:#17352b}.pill.warn{color:var(--gold);background:#3a3020}.pill.urgent{color:var(--red);background:#3b2427}
+.progress{height:9px;background:#263446;border-radius:99px;overflow:hidden;margin:9px 0}.progress span{display:block;height:100%;background:linear-gradient(90deg,#6dbb91,#e6bd72);border-radius:99px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:#0f1925aa;border:1px solid #334355;border-radius:13px;padding:10px}.stat strong{display:block;font-size:19px}.stat small{color:var(--muted);font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tile{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:13px;min-height:100px}.tile .emoji{font-size:21px}.tile strong{display:block;margin-top:5px}.tile small{color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:22px 2px 8px}.section-head p{font-size:12px}
+label{display:block;color:#dfe6ed;font-weight:650;margin:13px 0 6px}input,select,textarea{width:100%;background:#0d1621;border:1px solid #344457;border-radius:11px;color:var(--text);padding:12px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--gold)}textarea{min-height:78px;resize:vertical}
+.choice-list{display:grid;gap:8px}.choice{display:flex;align-items:flex-start;gap:10px;padding:11px;background:#0f1925;border:1px solid #2b3a4c;border-radius:11px;color:#e4eaf0;font-weight:500}.choice input{width:auto;margin:4px 0 0;accent-color:var(--gold);transform:scale(1.1)}
+.btn{border:0;border-radius:12px;padding:12px 15px;background:var(--gold);color:#18202a;font-weight:800;width:100%;margin-top:14px}.btn.secondary{background:#26384b;color:var(--text);border:1px solid #3b4c60}.btn.ghost{background:transparent;color:var(--gold);border:1px solid #67583d}
+.mission{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}.mission:last-child{border:0}.mission input{width:19px;height:19px;accent-color:var(--green);margin-top:3px}.mission.done span{text-decoration:line-through;color:var(--muted)}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0c141fee;backdrop-filter:blur(18px);border-top:1px solid #29384a;padding:8px 6px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:10}.nav-inner{width:min(760px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:3px}.nav button{border:0;background:transparent;color:#8493a4;font-size:10px;padding:7px 2px;border-radius:11px}.nav button b{display:block;font-size:19px;font-weight:500;margin-bottom:2px}.nav button.active{color:var(--gold);background:#273447}
+.page{display:none}.page.active{display:block}.note{border-left:3px solid var(--gold);padding:10px 12px;background:#211f1a;border-radius:0 10px 10px 0;color:#e8ddc8;margin:12px 0}
+.small{font-size:12px;color:var(--muted)}.tag{font-size:11px;color:var(--blue)}.empty{padding:20px;text-align:center;color:var(--muted)}
+footer{text-align:center;color:#738194;font-size:11px;margin:24px 0}
+@media(min-width:600px){.app{padding-left:24px;padding-right:24px}.grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div><div class="brand">LIFE & STEWARDSHIP</div><div class="brand-sub">FAITHFULNESS IN EVERY AREA</div></div>
+ <div class="pill" id="todayPill">TODAY</div>
+</header>
+
+<main>
+<section class="page active" id="home">
+ <div class="card hero">
+  <div class="eyebrow">Your journey</div>
+  <h1 id="levelTitle">Building the foundation</h1>
+  <p id="levelSub">Small faithful steps. Lasting foundations.</p>
+  <div class="row" style="margin-top:15px"><strong id="levelLabel">Level 1 · Foundation</strong><span class="small" id="xpLabel">0 XP</span></div>
+  <div class="progress"><span id="xpBar" style="width:0%"></span></div>
+  <div class="stats">
+   <div class="stat"><strong id="streak">0</strong><small>Check-in streak</small></div>
+   <div class="stat"><strong id="tasksDone">0</strong><small>Tasks completed</small></div>
+   <div class="stat"><strong id="milestones">0</strong><small>Milestones</small></div>
+  </div>
+ </div>
+ <div class="section-head"><div><div class="eyebrow">Your dashboard</div><h2>Life areas</h2></div><p>Updated as you go</p></div>
+ <div class="grid" id="areaGrid"></div>
+ <div class="card">
+  <div class="eyebrow">Today's focus</div><h2 id="focusTitle">Return to the next faithful step</h2>
+  <p id="focusText">Start with your daily check-in. You do not have to fix everything today.</p>
+  <button class="btn" onclick="showPage('daily')">Start daily check-in</button>
+ </div>
+ <div class="note">Your progress is not your worth. You cannot earn God's love. This system helps you practice wise, faithful stewardship.</div>
+</section>
+
+<section class="page" id="daily">
+ <div class="eyebrow">Daily mission · 3 to 5 minutes</div><h1>Daily check-in</h1><p>A short, honest snapshot of today. You can skip anything you don't know.</p>
+ <div class="card">
+  <form id="dailyForm">
+   <label>1. How are you doing spiritually today?</label>
+   <select name="faith"><option value="">Choose one</option><option>Connected and encouraged</option><option>Doing okay, but inconsistent</option><option>Dry or discouraged</option><option>Overwhelmed or distant</option><option>Struggling with guilt or temptation</option></select>
+   <label>2. Did you make intentional time with Jesus?</label>
+   <select name="devotion"><option value="">Choose one</option><option>Yes</option><option>A little</option><option>Not today</option></select>
+   <label>3. How is work and career going?</label>
+   <select name="work"><option value="">Choose one</option><option>Good and steady</option><option>Busy or stressful</option><option>Looking for work</option><option>Needs attention</option></select>
+   <label>4. What changed financially today?</label>
+   <select name="money"><option value="">Choose one</option><option>Saved money</option><option>Spent within my plan</option><option>Unexpected expense</option><option>Need to review finances</option><option>No major change</option></select>
+   <label>5. How are transportation and practical responsibilities?</label>
+   <select name="transport"><option value="">Choose one</option><option>Stable</option><option>Needs attention</option><option>Major issue or setback</option><option>No change</option></select>
+   <label>6. How are your relationship and connections?</label>
+   <select name="relationship"><option value="">Choose one</option><option>Healthy and connected</option><option>Working through something</option><option>Difficult or disconnected</option><option>Not sure</option></select>
+   <label>7. How is your physical and emotional health?</label>
+   <select name="health"><option value="">Choose one</option><option>Good</option><option>Okay</option><option>Struggling</option><option>Need support</option></select>
+   <label>8. What is the one thing that matters most tomorrow?</label>
+   <input name="priority" placeholder="One practical next step">
+   <label>Anything else you want to record?</label><textarea name="notes" placeholder="Wins, challenges, prayer requests, or context..."></textarea>
+   <button class="btn" type="submit">Save today's check-in</button>
+  </form>
+  <p class="small" id="dailySaved"></p>
+ </div>
+</section>
+
+<section class="page" id="assess">
+ <div class="eyebrow">Review · Learn · Adjust</div><h1>Assessments</h1><p>Look honestly at patterns without condemning yourself.</p>
+ <div class="card">
+  <h2>Current snapshot</h2><div id="assessmentSnapshot"></div>
+  <button class="btn secondary" onclick="showPage('daily')">Update today's answers</button>
+ </div>
+ <div class="card">
+  <h2>Weekly reflection</h2>
+  <form id="weeklyForm">
+   <label>What went well this week?</label><textarea name="wins" placeholder="Progress, answered prayers, good decisions..."></textarea>
+   <label>What needs attention?</label><textarea name="challenges" placeholder="Be honest and specific..."></textarea>
+   <label>Which areas need a follow-up? Select all that apply.</label>
+   <div class="choice-list">
+    <label class="choice"><input type="checkbox" name="areas" value="Faith"> Faith and church</label>
+    <label class="choice"><input type="checkbox" name="areas" value="Transportation"> Transportation</label>
+    <label class="choice"><input type="checkbox" name="areas" value="Finances"> Savings and debt</label>
+    <label class="choice"><input type="checkbox" name="areas" value="Career"> Work and career</label>
+    <label class="choice"><input type="checkbox" name="areas" value="Relationship"> Relationship</label>
+    <label class="choice"><input type="checkbox" name="areas" value="Health"> Health</label>
+   </div>
+   <label>What is one change you want to make next week?</label><textarea name="change" placeholder="A realistic change..."></textarea>
+   <button class="btn" type="submit">Save weekly assessment</button>
+  </form>
+  <p class="small" id="weeklySaved"></p>
+ </div>
+ <div class="card"><h2>Latest review</h2><div id="latestReview" class="small">No weekly review saved yet.</div></div>
+</section>
+
+<section class="page" id="planner">
+ <div class="eyebrow">Plan with intention</div><h1>Planner</h1><p>Turn big goals into small actions you can actually complete.</p>
+ <div class="card">
+  <div class="row"><h2>Current priorities</h2><span class="pill" id="planCount">0 / 0</span></div>
+  <div id="taskList"></div>
+  <div class="note">Start with what is urgent, but don't neglect the foundation of your life with Christ.</div>
+ </div>
+ <div class="card">
+  <h2>Add your own task</h2>
+  <form id="taskForm">
+   <label>Task</label><input name="task" required placeholder="Example: Call the repair shop">
+   <label>Life area</label><select name="area"><option>Faith</option><option>Transportation</option><option>Finances</option><option>Career</option><option>Relationship</option><option>Health</option><option>Homeownership</option></select>
+   <label>When?</label><select name="when"><option>Today</option><option>This week</option><option>This month</option><option>Someday</option></select>
+   <button class="btn" type="submit">Add to planner</button>
+  </form>
+ </div>
+ <div class="card">
+  <h2>Milestones</h2><div id="milestoneList"></div>
+ </div>
+</section>
+
+<section class="page" id="next">
+ <div class="eyebrow">Guided action plan</div><h1>Next steps</h1><p>One step at a time. Your current circumstances shape the order.</p>
+ <div class="card hero">
+  <div class="eyebrow">Recommended first mission</div><h2>Get clarity on transportation</h2>
+  <p>Your PT Cruiser is at the shop and you're walking to work. Before making a vehicle decision, get the facts.</p>
+  <ol style="padding-left:20px;color:#e4eaf0">
+   <li>Ask the shop for a written diagnosis.</li><li>Get the full repair estimate and timeline.</li><li>Confirm whether the $400 debt is related to the car.</li><li>Compare repair cost with realistic alternatives.</li>
+  </ol>
+  <button class="btn" onclick="addTask('Get written diagnosis and repair estimate','Transportation','Today')">Add mission to planner</button>
+ </div>
+ <div class="card">
+  <div class="eyebrow">Spiritual foundation</div><h2>Rebuild a simple rhythm with Jesus</h2>
+  <p>For the next seven days, aim for a small, sustainable rhythm rather than perfection.</p>
+  <ol style="padding-left:20px;color:#e4eaf0">
+   <li>Read one chapter of John.</li><li>Talk honestly with God for five minutes.</li><li>Choose one thing to obey today.</li><li>Make a plan to reconnect with church community.</li></ol>
+  <button class="btn secondary" onclick="addTask('Spend 10 minutes with Jesus','Faith','Today')">Add today's faith mission</button>
+ </div>
+ <div class="card">
+  <div class="eyebrow">Financial foundation</div><h2>Protect the first $3,000</h2>
+  <p>Current reported savings: <strong>$800</strong>. First milestone: <strong>$3,000</strong>. Keep a buffer while you clarify transportation costs and unpaid bills.</p>
+  <div class="progress"><span style="width:26.7%"></span></div>
+  <p class="small">Illustrative progress based on the last reported savings amount. Update it when your balance changes.</p>
+  <button class="btn secondary" onclick="addTask('Review spending and set a realistic savings amount','Finances','This week')">Add financial review</button>
+ </div>
+ <div class="card">
+  <h2>What comes after the foundation?</h2>
+  <p>Establish credit responsibly, strengthen your career, prepare for marriage with wisdom, build emergency savings, and work toward homeownership and investing when the basics are stable.</p>
+ </div>
+</section>
+</main>
+<footer>Built for steady growth, wise stewardship, and a life centered on Christ.</footer>
+</div>
+
+<nav class="nav"><div class="nav-inner">
+ <button class="active" data-page="home"><b>⌂</b>Home</button>
+ <button data-page="daily"><b>☑</b>Daily</button>
+ <button data-page="assess"><b>◷</b>Assess</button>
+ <button data-page="planner"><b>▤</b>Planner</button>
+ <button data-page="next"><b>➜</b>Next steps</button>
+</div></nav>
+
+<script>
+const KEY='lifeStewardship_v1';
+const initial={
+ xp:0, checkins:{}, tasks:[
+  {id:'t1',text:'Get a written diagnosis and repair estimate for the PT Cruiser',area:'Transportation',when:'Today',done:false},
+  {id:'t2',text:'Clarify what the reported $400 debt is for',area:'Finances',when:'This week',done:false},
+  {id:'t3',text:'Protect current savings and work toward the $3,000 milestone',area:'Finances',when:'This week',done:false},
+  {id:'t4',text:'Spend 10 to 15 minutes with Jesus',area:'Faith',when:'Today',done:false},
+  {id:'t5',text:'Make a plan to reconnect with church community',area:'Faith',when:'This week',done:false}
+ ],milestones:[
+  {id:'m1',text:'Reach $1,000 in savings',done:false},
+  {id:'m2',text:'Reach $3,000 emergency savings',done:false},
+  {id:'m3',text:'Restore reliable transportation',done:false},
+  {id:'m4',text:'Establish a consistent spiritual rhythm',done:false},
+  {id:'m5',text:'Build a responsible credit history',done:false}
+ ],daily:{},weekly:null};
+let data=load();
+function load(){try{return {...initial,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return structuredClone(initial)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
+function dateKey(){return new Date().toISOString().slice(0,10)}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='assess')renderAssessment()}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function addTask(text,area,when){if(data.tasks.some(t=>t.text===text&&!t.done))return alert('That task is already in your planner.');data.tasks.push({id:'t'+Date.now(),text,area,when,done:false});save();showPage('planner')}
+function renderHome(){
+ const completed=Object.values(data.checkins).length;const tasksDone=data.tasks.filter(t=>t.done).length;const ms=data.milestones.filter(m=>m.done).length;
+ const level=Math.floor(data.xp/100)+1,within=data.xp%100;
+ document.getElementById('levelTitle').textContent=level===1?'Building the foundation':level===2?'Establishing consistency':level===3?'Growing in stewardship':'Walking in maturity';
+ document.getElementById('levelLabel').textContent=`Level ${level} · ${['Foundation','Consistency','Stewardship','Maturity'][Math.min(level-1,3)]}`;
+ document.getElementById('xpLabel').textContent=data.xp+' XP';document.getElementById('xpBar').style.width=within+'%';
+ document.getElementById('streak').textContent=streak();document.getElementById('tasksDone').textContent=tasksDone;document.getElementById('milestones').textContent=ms;
+ const areas=[['✝','Faith','Needs attention','warn'],['▣','Career','Full-time · $25/hr','good'],['$','Finances','$800 savings · $400 debt','warn'],['🚗','Transportation','Vehicle at shop','urgent'],['♡','Relationship','Working on things','warn'],['✚','Health','Last reported: okay','good']];
+ document.getElementById('areaGrid').innerHTML=areas.map(a=>`<div class="tile"><span class="emoji">${a[0]}</span><strong>${a[1]}</strong><small>${a[2]}</small><div style="margin-top:7px"><span class="pill ${a[3]}">${a[3]==='urgent'?'Priority':a[3]==='good'?'Steady':'In progress'}</span></div></div>`).join('');
+ document.getElementById('todayPill').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}).toUpperCase();
+}
+function streak(){let n=0,d=new Date();while(true){let k=d.toISOString().slice(0,10);if(data.checkins[k]){n++;d.setDate(d.getDate()-1)}else break}return n}
+document.getElementById('dailyForm').addEventListener('submit',e=>{e.preventDefault();let obj=Object.fromEntries(new FormData(e.target).entries());let k=dateKey();if(!data.checkins[k])data.xp+=15;data.checkins[k]=obj;data.daily=obj;save();document.getElementById('dailySaved').textContent='Saved on this device. You earned 15 XP for completing today’s check-in.';});
+function renderAssessment(){
+ const d=data.daily||{};const fields=[['Spiritual state',d.faith],['Time with Jesus',d.devotion],['Work',d.work],['Finances',d.money],['Transportation',d.transport],['Relationships',d.relationship],['Health',d.health]];
+ document.getElementById('assessmentSnapshot').innerHTML=fields.map(([a,b])=>`<div class="row" style="padding:7px 0;border-bottom:1px solid var(--line)"><span class="small">${a}</span><strong style="font-size:13px;text-align:right">${esc(b||'Not recorded')}</strong></div>`).join('');
+ if(data.weekly){let w=data.weekly;document.getElementById('latestReview').innerHTML=`<strong>${esc(w.date)}</strong><br><br><b>Wins:</b> ${esc(w.wins||'Not recorded')}<br><b>Challenges:</b> ${esc(w.challenges||'Not recorded')}<br><b>Follow-up:</b> ${esc((w.areas||[]).join(', ')||'None selected')}<br><b>Next change:</b> ${esc(w.change||'Not recorded')}`}
+}
+document.getElementById('weeklyForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target);data.weekly={date:new Date().toLocaleDateString(),wins:f.get('wins'),challenges:f.get('challenges'),areas:f.getAll('areas'),change:f.get('change')};data.xp+=20;save();document.getElementById('weeklySaved').textContent='Weekly assessment saved. You earned 20 XP.';renderAssessment()});
+function renderTasks(){let done=data.tasks.filter(t=>t.done).length;document.getElementById('planCount').textContent=`${done} / ${data.tasks.length}`;document.getElementById('taskList').innerHTML=data.tasks.length?data.tasks.map(t=>`<div class="mission ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${t.id}',this.checked)"><div style="flex:1"><span>${esc(t.text)}</span><div class="small">${esc(t.area)} · ${esc(t.when)}</div></div><button aria-label="Delete task" onclick="deleteTask('${t.id}')" style="background:none;border:0;color:#91a0b0">×</button></div>`).join(''):'<div class="empty">No tasks yet. Add one above.</div>';
+ document.getElementById('milestoneList').innerHTML=data.milestones.map(m=>`<div class="mission ${m.done?'done':''}"><input type="checkbox" ${m.done?'checked':''} onchange="toggleMilestone('${m.id}',this.checked)"><span>${esc(m.text)}</span></div>`).join('')}
+function toggleTask(id,checked){let t=data.tasks.find(t=>t.id===id);if(t&&!t.done&&checked)data.xp+=5;if(t)t.done=checked;save()}
+function deleteTask(id){data.tasks=data.tasks.filter(t=>t.id!==id);save()}
+function toggleMilestone(id,checked){let m=data.milestones.find(m=>m.id===id);if(m&&!m.done&&checked)data.xp+=25;if(m)m.done=checked;save()}
+document.getElementById('taskForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target);addTask(f.get('task'),f.get('area'),f.get('when'));e.target.reset()});
+function renderAll(){renderHome();renderTasks();renderAssessment()}
+renderAll();
+if(data.daily&&data.checkins[dateKey()]){let form=document.getElementById('dailyForm');for(let [k,v] of Object.entries(data.checkins[dateKey()])){let el=form.elements[k];if(el)el.value=v}}
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>

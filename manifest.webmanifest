@@ -1,0 +1,21 @@
+{
+  "name": "Life & Stewardship",
+  "short_name": "Stewardship",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0c121b",
+  "theme_color": "#101722",
+  "description": "A Christ-centered life and stewardship planner.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
